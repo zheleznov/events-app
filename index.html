@@ -93,26 +93,26 @@
         <div class="col-sm-6">
             <h3>Please fill this form for registration</h3>
             <form class="">
-                <div class="form-group {{if checkName 'has-success'}}" >
-                    <label class="control-label" for="name">Name</label>
-                    <input autocomplete="on" id="name" placeholder="" class="form-control" type="text"/>
+                <div class="form-group" >
+                    <label class="control-label" for="name">Name*</label>
+                    <input autocomplete="on" id="name" placeholder="" class="form-control" type="text" required/>
                 </div>
-                <div class="form-group {{if checkLastName 'has-success'}}">
-                    <label class="control-label" for="lastName">Last Name</label>
-                    <input autocomplete="on" id="lastName" placeholder="" class="form-control" type="text"/>
+                <div class="form-group">
+                    <label class="control-label" for="lastName">Last Name*</label>
+                    <input autocomplete="on" id="lastName" placeholder="" class="form-control" type="text" required/>
                 </div>
-                <div class="form-group {{if checkEmail 'has-success'}}">
-                    <label class="control-label" for="email">Email</label>
-                    <input autocomplete="on" id="email" placeholder="" class="form-control" type="email"/>
+                <div class="form-group">
+                    <label class="control-label" for="email">Email*</label>
+                    <input autocomplete="on" id="email" placeholder="" class="form-control" type="email" required/>
                 </div>
-                <div class="form-group {{if checkPassword 'has-success'}}">
-                    <label class="control-label" for="password">Password</label>
-                    <input autocomplete="off" id="password" placeholder="" class="form-control" type="password"/>
+                <div class="form-group">
+                    <label class="control-label" for="password">Password*</label>
+                    <input autocomplete="off" id="password" placeholder="" class="form-control" type="password" required/>
                     <div class="alert alert-danger" role="alert">
-                        <p>Password should have 6 or more characters</p>
-                        <p>Password should have at least 1 digit</p>
-                        <p>Password should have upperCase letters</p>
-                        <p>Password should have lowerCase letters</p>
+                        <p data-password="length">Password should have 6 or more characters</p>
+                        <p data-password="digit">Password should have at least 1 digit</p>
+                        <p data-password="uppercase">Password should have upperCase letters</p>
+                        <p data-password="lowercase">Password should have lowerCase letters</p>
                     </div>
                 </div>
                 <div class="form-group">
@@ -127,7 +127,10 @@
                     <label class="control-label" for="birth">Date of birth (optional)</label>
                     <input autocomplete="on" id="birth" placeholder="" class="form-control" type="date"/>
                 </div>
-                <button type="submit" class="btn btn-success" disabled>Sign Up</button>
+                <div class="form-group">
+                    <p>* - required fields</p>
+                </div>
+                <button type="submit" class="btn btn-success">Sign Up</button>
             </form>
         </div>
     </div>
