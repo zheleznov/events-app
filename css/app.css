@@ -1,0 +1,14 @@
+.nav-signout.hide,
+.navbar-form p.hide {
+    display: none;
+}
+
+.navbar-form p {
+    display: inline-block;
+    padding-right: 10px;
+    color: rgb(255, 255, 255)
+}
+
+.signup-form {
+    margin-top: 50px;
+}

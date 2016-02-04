@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Events app manager</title>
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/app.css" rel="stylesheet">
+    <script src="js/jquery-2.2.0.min.js"></script>
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="javascript:void(0)" class='navbar-brand'>Meet-Up Event Planner</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <form class="navbar-form navbar-right">
+                <div class="form-group">
+                    <input class="nav-email form-control" autocomplete="on" placeholder="Email" type="text" value=''/>
+                </div>
+                <div class="form-group">
+                    <input class="nav-password form-control" autocomplete="off"  placeholder="Password" type="password"/>
+                </div>
+                <button type="submit" class="btn btn-success nav-signin">Sign in</button>
+                <a class="nav-signup" href="javascript:void(0)">Sign up</a>
+                <p class="hide">Welcome, <span></span></p>
+                <button type="submit" class="btn btn-success nav-signout hide">Log out</button>
+            </form>
+        </div><!--/.navbar-collapse -->
+    </div>
+</nav>
+
+<!-- Main jumbotron for a primary marketing message or call to action -->
+<div class="jumbotron main-page">
+    <div class="container">
+        <h1>Hey Guys</h1>
+        <p>Welcome to the event planner manager. Please login to create events!</p>
+        <p><button type="button" class="btn btn-primary" disabled="disabled">Create event</button></p>
+    </div>
+</div>
+<div class="container main-page">
+    <!-- Example row of columns -->
+    <div class="row">
+        <div class="col-md-2 col-sm-4">
+            <div class="thumbnail">
+                <div class="caption">
+                    <h3 class="event-name">Event 1</h3>
+                    <p class="event-date">January 28, 2016</p>
+                    <p class="event-place">Los Angeles</p>
+                    <p class="event-description">Donec id elit non mi porta gravida at eget metus.</p>
+                    <p><a href="#" class="btn btn-primary" role="button">Details</a></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2 col-sm-4">
+            <div class="thumbnail">
+                <div class="caption">
+                    <h3 class="event-name">Event 1</h3>
+                    <p class="event-date">January 28, 2016</p>
+                    <p class="event-place">Los Angeles</p>
+                    <p class="event-description">Donec id elit non mi porta gravida at eget metus.</p>
+                    <p><a href="#" class="btn btn-primary" role="button">Details</a></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2 col-sm-4">
+            <div class="thumbnail">
+                <div class="caption">
+                    <h3 class="event-name">Event 1</h3>
+                    <p class="event-date">January 28, 2016</p>
+                    <p class="event-place">Los Angeles</p>
+                    <p class="event-description">Donec id elit non mi porta gravida at eget metus.</p>
+                    <p><a href="#" class="btn btn-primary" role="button">Details</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <!-- <footer>
+         <p>© 2015 Company, Inc.</p>
+     </footer>-->
+</div>
+<div class="container signup-form">
+    <div class="row">
+        <div class="col-sm-6">
+            <h3>Please fill this form for registration</h3>
+            <form class="">
+                <div class="form-group {{if checkName 'has-success'}}" >
+                    <label class="control-label" for="name">Name</label>
+                    <input autocomplete="on" id="name" placeholder="" class="form-control" type="text"/>
+                </div>
+                <div class="form-group {{if checkLastName 'has-success'}}">
+                    <label class="control-label" for="lastName">Last Name</label>
+                    <input autocomplete="on" id="lastName" placeholder="" class="form-control" type="text"/>
+                </div>
+                <div class="form-group {{if checkEmail 'has-success'}}">
+                    <label class="control-label" for="email">Email</label>
+                    <input autocomplete="on" id="email" placeholder="" class="form-control" type="email"/>
+                </div>
+                <div class="form-group {{if checkPassword 'has-success'}}">
+                    <label class="control-label" for="password">Password</label>
+                    <input autocomplete="off" id="password" placeholder="" class="form-control" type="password"/>
+                    <div class="alert alert-danger" role="alert">
+                        <p>Password should have 6 or more characters</p>
+                        <p>Password should have at least 1 digit</p>
+                        <p>Password should have upperCase letters</p>
+                        <p>Password should have lowerCase letters</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="employer">Employer (optional)</label>
+                    <input autocomplete="on" id="employer" placeholder="" class="form-control" type="text"/>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="job">Job (optional)</label>
+                    <input autocomplete="on" id="job" placeholder="" class="form-control" type="text"/>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="birth">Date of birth (optional)</label>
+                    <input autocomplete="on" id="birth" placeholder="" class="form-control" type="date"/>
+                </div>
+                <button type="submit" class="btn btn-success" disabled>Sign Up</button>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="js/bootstrap.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
