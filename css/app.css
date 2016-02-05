@@ -12,3 +12,7 @@
 .signup-form {
     margin-top: 50px;
 }
+
+.signup-form p[data-email="exist"] {
+    display: none;
+}

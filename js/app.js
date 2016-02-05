@@ -1,4 +1,4 @@
-(function($){
+(function($, $body){
     var app = (function(){
         var helpers = {
             urls:{
@@ -12,18 +12,10 @@
         };
 
         var storages = {
-            init: function(){
-                this.users.init();
-            },
-            getFromStorage: function(){
-
-            },
             users: {
                 init: function() {
                     if(!localStorage.users) {
                         var users = [];
-                        //for testing
-                        users.push({name:'Roma', email: 'qwe@qwe.qwe', password: 'qwe'});
                         localStorage.users = JSON.stringify(users);
                     }
                 },
@@ -80,14 +72,14 @@
                 }
             },
             signUp: {
-                hideAlert: function(param, result){
-                    $('body').find('.alert-danger p[data-password="' + param + '"]').hide();
+                hideAlert: function(param, result, field){
+                    $('body').find('.alert-danger p[data-' + field + '="' + param + '"]').hide();
 
-                    if (result) $('body').find('.alert-danger').hide();
+                    if (result) $('body').find('.alert-danger.' + field).hide();
                 },
-                showAlert: function(param, result){
-                    $('body').find('.alert-danger p[data-password="' + param + '"]').show();
-                    if (result) $('body').find('.alert-danger').show();
+                showAlert: function(param, result, field){
+                    $('body').find('.alert-danger p[data-' + field + '="' + param + '"]').show();
+                    if (result) $('body').find('.alert-danger.' + field).show();
                 }
             }
         };
@@ -95,8 +87,12 @@
 
         //TODO: refactoring
         //TODO: check email for existing user
+        //TODO: during login give the message if user not exist
         var controllers = {
             init: function(){
+                //initialize storage
+                storages.users.init();
+
                 this.users.setEvents();
                 this.users.checkUserSession();
                 this.pages.setEvents();
@@ -109,8 +105,8 @@
 
                     e.preventDefault();
 
-                    user.email = $('.nav-email').val();
-                    user.password = $('.nav-password').val();
+                    user.email = $body.find('.nav-email').val();
+                    user.password = $body.find('.nav-password').val();
 
                     var result = storages.users.getUser(user.email);
 
@@ -137,8 +133,8 @@
                     }
                 },
                 setEvents: function(){
-                    $('.nav-signin').on('click', this.login);
-                    $('.nav-signout').on('click', this.logout);
+                    $body.find('.nav-signin').on('click', this.login);
+                    $body.find('.nav-signout').on('click', this.logout);
                 }
             },
             pages: {
@@ -160,84 +156,119 @@
                     }
                 },
                 setEvents: function(){
-                    $('.nav-signup').on('click', this.signUp);
-                    $('.navbar-brand').on('click', this.mainPage);
+                    $body.find('.nav-signup').on('click', this.signUp);
+                    $body.find('.navbar-brand').on('click', this.mainPage);
                 }
             },
             signUp: {
-                validateEmail: function(){
-                    var password = $(this).val(),
+                validatePassword: function(e){
+                    var password = $(e.target).val(),
                         finalResult = false;
 
                     //uppercase
                     if(password.match(/[A-Z]/g)){
-                        renders.signUp.hideAlert('uppercase', finalResult);
+                        renders.signUp.hideAlert('uppercase', finalResult, 'password');
                         finalResult = true;
                     } else {
-                        renders.signUp.showAlert('uppercase', finalResult);
+                        renders.signUp.showAlert('uppercase', finalResult, 'password');
                         finalResult = false;
                     }
 
                     //lowercase
                     if(password.match(/[a-z]/g)){
-                        renders.signUp.hideAlert('lowercase', finalResult);
+                        renders.signUp.hideAlert('lowercase', finalResult, 'password');
                         finalResult = true;
                     } else {
-                        renders.signUp.showAlert('lowercase', finalResult);
+                        renders.signUp.showAlert('lowercase', finalResult, 'password');
                         finalResult = false;
                     }
 
                     //digit
                     if(password.match(/\d/g)){
-                        renders.signUp.hideAlert('digit', finalResult);
+                        renders.signUp.hideAlert('digit', finalResult, 'password');
                         finalResult = true;
                     } else {
-                        renders.signUp.showAlert('digit', finalResult);
+                        renders.signUp.showAlert('digit', finalResult, 'password');
                         finalResult = false;
                     }
 
                     //length
                     if(password.length > 6 ){
-                        renders.signUp.hideAlert('length', finalResult);
+                        renders.signUp.hideAlert('length', finalResult, 'password');
                         finalResult = true;
                     } else {
-                        renders.signUp.showAlert('length', finalResult);
+                        renders.signUp.showAlert('length', finalResult, 'password');
                         finalResult = false;
                     }
 
                     this.isPasswordValid = finalResult;
                 },
+                validateEmail: function(e){
+                    var email = $(e.target).val(),
+                        result = false;
+
+                    renders.signUp.hideAlert('exist', false, 'email'); //hide alert for existing user. it shows only on blur
+
+                    if (email.match(/^.+@.+\..+$/)) {
+                        result = true;
+                        renders.signUp.hideAlert('valid', result, 'email');
+                    } else {
+                        result = false;
+                        renders.signUp.showAlert('valid', !result, 'email');
+                    }
+
+                    this.isEmailValid = result;
+                },
                 createNewUser: function(){
                     var userInfo = {};
 
-                    userInfo.name = $('body').find('#name').val();
-                    userInfo.lastName = $('body').find('#lastName').val();
-                    userInfo.email = $('body').find('#email').val();
-                    userInfo.password = $('body').find('#password').val();
-                    userInfo.employer = $('body').find('#employer').val();
-                    userInfo.job = $('body').find('#job').val();
-                    userInfo.birth = $('body').find('#birth').val();
-                    console.log(this)
-                    console.log(this.isPasswordValid)
-                    if(userInfo.name && userInfo.lastName && userInfo.email && this.isPasswordValid) {
-                        alert(2)
-                        storages.users.addNewUser(userInfo);
+                    userInfo.name = $body.find('#name').val();
+                    userInfo.lastName = $body.find('#lastName').val();
+                    userInfo.email = $body.find('#email').val();
+                    userInfo.password = $body.find('#password').val();
+                    userInfo.employer = $body.find('#employer').val();
+                    userInfo.job = $body.find('#job').val();
+                    userInfo.birth = $body.find('#birth').val();
+                    if(userInfo.name && userInfo.lastName && userInfo.email && this.isPasswordValid && !this.userExist) {
+                        storages.users.addNewUser(userInfo); //save new user
+                        $body.find('.signup-form input').val(''); //clear form
+                        renders.pages.mainPage();//show main page
+                        helpers.urls.setHash('mainPage');
+                        renders.users.logined(userInfo); //automatically loggined new user
+                        storages.users.createCurrentUser(userInfo);//save user to current session
+                    }
+                },
+                checkEMailForExisting: function(e){
+                    var email = $(e.target).val(),
+                        result;
+
+                    if(this.isEmailValid) {
+                        result = storages.users.getUser(email);
+                    }
+
+                    if(result) {
+                        this.userExist = true;
+                        renders.signUp.showAlert('exist', true, 'email');
+                    } else {
+                        this.userExist = false;
+                        renders.signUp.hideAlert('exist', false, 'email');
                     }
                 },
                 setEvents: function(){
-                    $('body').on('keyup', '#password', this.validateEmail.bind(this));
-                    $('body').on('click', '.signup-form .btn-success', this.createNewUser.bind(this));
+                    $body.on('keyup', '#password', this.validatePassword.bind(this));
+                    $body.on('click', '.signup-form .btn-success', this.createNewUser.bind(this));
+                    $body.on('blur', '#email', this.checkEMailForExisting.bind(this));
+                    $body.on('keyup', '#email', this.validateEmail.bind(this));
                 }
             }
         };
 
         return {
             init: function(){
-                storages.init();
                 controllers.init();
             }
         }
     })();
 
     $(document).ready(app.init);
-})(window.jQuery);
+})(window.jQuery, jQuery('body'));
