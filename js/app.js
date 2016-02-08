@@ -47,6 +47,8 @@
             }
         };
 
+        //TODO: more clear renderer for pages, remove value cleaner
+        //TODO: refacting
         var renders = {
             users: {
                 logined: function(userInfo){ //hide form and show user hello
@@ -58,6 +60,7 @@
                     $('.navbar-form > .nav-signout, .navbar-form p').addClass('hide');
                     $('.nav-password').val('');
                     $('.navbar-form > div, .navbar-form .nav-signin, .navbar-form a').show();
+
                 }
             },
             pages: {
@@ -69,6 +72,17 @@
                     $('.main-page').show();
                     $('.signup-form').hide();
                     $('.signup-form input').val('');
+
+                    //activate event button
+                    if(sessionStorage.currentUser) {
+                        $body.find('.main-page button').removeAttr('disabled');
+                    } else {
+                        $body.find('.main-page button').attr('disabled', 'disabled');
+                    }
+                },
+                showAddEventPage: function() {
+                    $('.main-page').hide();
+                    $('.event-form').show();
                 }
             },
             signUp: {
@@ -112,8 +126,9 @@
 
                     if(result) { //check user password
                         if(result.password === user.password) {
-                            renders.users.logined(result);
                             storages.users.createCurrentUser(result);
+                            renders.users.logined(result);
+                            renders.pages.mainPage();
                         }
                     } else {
 
@@ -124,6 +139,7 @@
 
                     storages.users.removeCurrentUser();
                     renders.users.logOut();
+                    renders.pages.mainPage();
                 },
                 checkUserSession: function(){
                     var userSession = sessionStorage.currentUser;
@@ -146,11 +162,17 @@
                     renders.pages.mainPage();
                     helpers.urls.setHash('mainPage');
                 },
+                eventForm: function(){
+                    renders.pages.showAddEventPage();
+                    helpers.urls.setHash('addEvent');
+                },
                 setPage: function(){
                     var hash = helpers.urls.getHash();
 
                     if(hash === 'signup') {
                         this.signUp();
+                    } else if(hash === 'addEvent') {
+                        this.eventForm();
                     } else if (hash === '' || hash === 'mainPage') {
                         this.mainPage();
                     }
@@ -158,6 +180,7 @@
                 setEvents: function(){
                     $body.find('.nav-signup').on('click', this.signUp);
                     $body.find('.navbar-brand').on('click', this.mainPage);
+                    $body.find('.main-page button').on('click', this.eventForm)
                 }
             },
             signUp: {
@@ -259,6 +282,11 @@
                     $body.on('click', '.signup-form .btn-success', this.createNewUser.bind(this));
                     $body.on('blur', '#email', this.checkEMailForExisting.bind(this));
                     $body.on('keyup', '#email', this.validateEmail.bind(this));
+                }
+            },
+            eventForm: {
+                setEvents: function(){
+
                 }
             }
         };

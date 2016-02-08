@@ -1,5 +1,6 @@
 .nav-signout.hide,
-.navbar-form p.hide {
+.navbar-form p.hide,
+.signup-form {
     display: none;
 }
 
