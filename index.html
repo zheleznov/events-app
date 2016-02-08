@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Events app manager</title>
     <link href="css/bootstrap.css" rel="stylesheet">
     <link href="css/app.css" rel="stylesheet">
@@ -44,6 +45,7 @@
         <p><button type="button" class="btn btn-primary" disabled="disabled">Create event</button></p>
     </div>
 </div>
+<!-- Main page container with events-->
 <div class="container main-page">
     <!-- Example row of columns -->
     <div class="row">
@@ -81,13 +83,9 @@
             </div>
         </div>
     </div>
-
-    <hr>
-
-    <!-- <footer>
-         <p>© 2015 Company, Inc.</p>
-     </footer>-->
 </div>
+
+<!-- Sign up form-->
 <div class="container signup-form">
     <div class="row">
         <div class="col-sm-6">
@@ -135,6 +133,75 @@
                     <p>* - required fields</p>
                 </div>
                 <button type="submit" class="btn btn-success">Sign Up</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Add event form -->
+<div class="container add-event">
+    <div class="row">
+        <div class="col-sm-6">
+            <form class="events-form" data-stage="1">
+                <div class="event-stage" data-stage="1">
+                    <h3>Creating event form</h3>
+                    <h4>Stage 1 of 3</h4>
+                    <div class="form-group">
+                        <label class="control-label" for="event-name">Event Name*</label>
+                        <input autocomplete="on" id="event-name" placeholder="" class="form-control" type="text" required/>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="event-type">Event Type*</label>
+                        <input autocomplete="on" list="events-list" id="event-type" placeholder="" class="form-control" type="text" required/>
+                        <datalist id="events-list">
+                            <option value="Birthday"></option>
+                            <option value="Meeting"></option>
+                            <option value="Party"></option>
+                        </datalist>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="event-description">Event description</label>
+                        <textarea class="form-control" id="event-description" rows="3"></textarea>
+                    </div>
+                </div>
+
+                <div class="event-stage" data-stage="2">
+                    <h3>Creating event form</h3>
+                    <h4>Stage 2 of 3</h4>
+                    <div class="form-group">
+                        <label class="control-label" for="event-date">Event date*</label>
+                        <input autocomplete="on" id="event-date" placeholder="" class="form-control" type="date" required/>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="event-start-time">Event start date*</label>
+                        <input autocomplete="on" id="event-start-time" placeholder="" class="form-control" type="datetime" required/>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="event-end-time">Event end date*</label>
+                        <input autocomplete="on" id="event-end-time" placeholder="" class="form-control" type="datetime" required/>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="event-location">Location*</label>
+                        <input autocomplete="on" id="event-location" placeholder="" class="form-control" type="text" required/>
+                    </div>
+                </div>
+
+                <div class="event-stage" data-stage="3">
+                    <h3>Creating event form</h3>
+                    <h4>Stage 3 of 3</h4>
+                    <div class="form-group">
+                        <label class="control-label" for="event-owner">Event owner*</label>
+                        <input autocomplete="on" id="event-owner" placeholder="" class="form-control" type="text" required/>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="event-guests">Guests</label>
+                        <input autocomplete="on" id="event-guests" placeholder="" class="form-control" type="text" required/>
+                    </div>
+                </div>
+                <div class="form-group events-control">
+                    <button class="btn btn-success previous" data-nav="previous" disabled>Previous</button>
+                    <button class="btn btn-success next" data-nav="next">Next</button>
+                </div>
             </form>
         </div>
     </div>

@@ -70,7 +70,7 @@
                 },
                 mainPage: function(){
                     $('.main-page').show();
-                    $('.signup-form').hide();
+                    $('.signup-form, .add-event').hide();
                     $('.signup-form input').val('');
 
                     //activate event button
@@ -82,7 +82,7 @@
                 },
                 showAddEventPage: function() {
                     $('.main-page').hide();
-                    $('.event-form').show();
+                    $('.add-event').show();
                 }
             },
             signUp: {
@@ -94,6 +94,23 @@
                 showAlert: function(param, result, field){
                     $('body').find('.alert-danger p[data-' + field + '="' + param + '"]').show();
                     if (result) $('body').find('.alert-danger.' + field).show();
+                }
+            },
+            eventForm: {
+                stageNavigation: function(stage) {
+                    //update current form data-stage
+                    $body.find('.events-form').attr('data-stage', stage);
+
+                    //enable or disable previous button
+                    if(stage > 1) {
+                        $body.find('.events-control .previous').removeAttr('disabled');
+                    } else {
+                        $body.find('.events-control .previous').attr('disabled', 'disabled');
+                    }
+
+                    //navigate through the stages
+                    $body.find('.event-stage[data-stage=' + stage + ']').show();
+                    $body.find('.event-stage').not('[data-stage=' + stage + ']').hide();
                 }
             }
         };
@@ -112,6 +129,7 @@
                 this.pages.setEvents();
                 this.pages.setPage();
                 this.signUp.setEvents();
+                this.eventForm.setEvents();
             },
             users: {
                 login: function(e){
@@ -254,11 +272,11 @@
                     userInfo.birth = $body.find('#birth').val();
                     if(userInfo.name && userInfo.lastName && userInfo.email && this.isPasswordValid && !this.userExist) {
                         storages.users.addNewUser(userInfo); //save new user
+                        storages.users.createCurrentUser(userInfo);//save user to current session
+                        helpers.urls.setHash('mainPage');
                         $body.find('.signup-form input').val(''); //clear form
                         renders.pages.mainPage();//show main page
-                        helpers.urls.setHash('mainPage');
                         renders.users.logined(userInfo); //automatically loggined new user
-                        storages.users.createCurrentUser(userInfo);//save user to current session
                     }
                 },
                 checkEMailForExisting: function(e){
@@ -285,7 +303,20 @@
                 }
             },
             eventForm: {
+                stageNavigation: function(){
+                    var navigation = $(this).attr('data-nav'),
+                        stage = parseInt($(this).closest('form').attr('data-stage'));
+
+                    if(navigation === 'next') {
+                        stage += 1;
+                    } else {
+                        stage -= 1;
+                    }
+                    renders.eventForm.stageNavigation(stage);
+                },
                 setEvents: function(){
+                    $body.find('.events-control .next, .events-control .previous').on('click', this.stageNavigation);
+
 
                 }
             }

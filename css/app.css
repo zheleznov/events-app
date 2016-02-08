@@ -1,6 +1,9 @@
 .nav-signout.hide,
 .navbar-form p.hide,
-.signup-form {
+.signup-form,
+.add-event,
+.add-event div[data-stage="2"],
+.add-event div[data-stage="3"] {
     display: none;
 }
 
@@ -10,10 +13,15 @@
     color: rgb(255, 255, 255)
 }
 
-.signup-form {
+.signup-form,
+.add-event {
     margin-top: 50px;
 }
 
 .signup-form p[data-email="exist"] {
     display: none;
+}
+
+.events-control {
+    float: right;
 }
