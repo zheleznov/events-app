@@ -25,3 +25,14 @@
 .events-control {
     float: right;
 }
+
+.event-panel {
+    display: inline-block;
+}
+
+.event-panel h3,
+.event-panel h5 {
+    margin-top: 0;
+    margin-bottom: 0;
+    text-align: center;
+}

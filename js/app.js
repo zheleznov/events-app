@@ -127,8 +127,9 @@
                         $body.find('.events-control .previous').attr('disabled', 'disabled');
                     }
 
-                    //change button text for stage 3 (final)
+                    //change button text for stage 3 (final) and predifine user name
                     if(stage === 3) {
+                        $body.find('#event-owner').val(sessionStorage.currentUser);
                         $body.find('.events-control .next').text('Add Event');
                     } else {
                         $body.find('.events-control .next').text('Next');
