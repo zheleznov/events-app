@@ -23,10 +23,10 @@
         <div id="navbar" class="navbar-collapse collapse">
             <form class="navbar-form navbar-right">
                 <div class="form-group">
-                    <input class="nav-email form-control" autocomplete="on" placeholder="Email" type="text" value=''/>
+                    <input class="nav-email form-control" autocomplete="on" placeholder="Email" type="email" required/>
                 </div>
                 <div class="form-group">
-                    <input class="nav-password form-control" autocomplete="off"  placeholder="Password" type="password"/>
+                    <input class="nav-password form-control" autocomplete="off"  placeholder="Password" type="password" required/>
                 </div>
                 <button type="submit" class="btn btn-success nav-signin">Sign in</button>
                 <a class="nav-signup" href="javascript:void(0)">Sign up</a>
@@ -49,36 +49,6 @@
 <div class="container main-page">
     <!-- Example row of columns -->
     <div class="row">
-        <div class="col-md-4 col-sm-6">
-            <div class="panel panel-default event-panel">
-                <div class="panel-body">
-                    <h3 class="event-name">This is my first event</h3>
-                    <h5 class="event-type">Party</h5>
-                    <hr/>
-                    <p class="event-start-date">Event start date: <span>January 28, 2016</span></p>
-                    <p class="event-end-date">Event end date: <span>January 28, 2016</span></p>
-                    <p class="event-place">Location: <span>Los Angeles</span></p>
-                    <hr/>
-                    <p class="event-description">Description: <span>Donec id elit non mi porta gravida at eget metus.</span></p>
-                    <p class="event-guests">Guests: <span>Udacity guys</span></p>
-                    <p class="event-owner">Created by: <span>Roman</span></p>
-                </div>
-            </div>
-            <div class="panel panel-default event-panel">
-                <div class="panel-body">
-                    <h3 class="event-name">This is my first event</h3>
-                    <h5 class="event-type">Party</h5>
-                    <hr/>
-                    <p class="event-start-date">Event start date: <span>January 28, 2016</span></p>
-                    <p class="event-end-date">Event end date: <span>January 28, 2016</span></p>
-                    <p class="event-place">Location: <span>Los Angeles</span></p>
-                    <hr/>
-                    <p class="event-description">Description: <span>Donec id elit non mi porta gravida at eget metus.</span></p>
-                    <p class="event-guests">Guests: <span>Udacity guys</span></p>
-                    <p class="event-owner">Created by: <span>Roman</span></p>
-                </div>
-            </div>
-        </div>
     </div>
 </div>
 
@@ -87,7 +57,7 @@
     <div class="row">
         <div class="col-sm-6">
             <h3>Please fill this form for registration</h3>
-            <form class="">
+            <form class="form-signup">
                 <div class="form-group" >
                     <label class="control-label" for="name">Name*</label>
                     <input autocomplete="on" id="name" placeholder="" class="form-control" type="text" required/>

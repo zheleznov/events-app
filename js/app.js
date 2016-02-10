@@ -1,134 +1,160 @@
-(function($, $body){
-    var app = (function(){
+(function ($, $body) {
+    var app = (function () {
         var helpers = {
-            urls:{
-                setHash: function(hash){
+            urls: {
+                setHash: function (hash) {
                     location.hash = hash;
                 },
-                getHash: function(){
+                getHash: function () {
                     return location.hash.replace('#', '');
                 }
             }
         };
 
+        //storage object
         var storages = {
             users: {
-                init: function() {
-                    if(!localStorage.users) {
+                init: function () {
+                    if (!localStorage.users) {
                         var users = [];
                         localStorage.users = JSON.stringify(users);
                     }
                 },
-                getUser: function(email){
+                getUser: function (email) { //get user from the storage
                     var users = JSON.parse(localStorage.users),
                         answer = false;
 
-                    $.each(users, function(index, item){
-                        if(item.email === email) {
+                    $.each(users, function (index, item) {
+                        if (item.email === email) {
                             answer = item;
                         }
                     });
 
                     return answer;
                 },
-                createCurrentUser: function(userInfo){
+                createCurrentUser: function (userInfo) { //add loginned user to session storage
                     sessionStorage.currentUser = userInfo.name;
                 },
-                removeCurrentUser: function(){
+                removeCurrentUser: function () { //remove loginned user to session storage
                     sessionStorage.removeItem('currentUser');
                 },
-                addNewUser: function(data){
+                addNewUser: function (data) { //add new registred user
                     var users = JSON.parse(localStorage.users);
 
                     users.push(data);
-
                     localStorage.users = JSON.stringify(users);
                 }
             },
             events: {
-                init: function(){
-                    if(!localStorage.events) {
+                init: function () {
+                    if (!localStorage.events) {
                         var events = [];
                         localStorage.events = JSON.stringify(events);
                     }
                 },
-                addEvent: function(event){
+                addEvent: function (event) {
                     var events = JSON.parse(localStorage.events);
 
                     events.push(event);
-
                     localStorage.events = JSON.stringify(events);
+                },
+                getAllEvents: function () {
+                    return JSON.parse(localStorage.events);
                 }
             }
         };
 
-        //TODO: more clear renderer for pages, remove value cleaner
-        //TODO: refacting
         var renders = {
             users: {
-                logined: function(userInfo){ //hide form and show user hello
-                    $('.navbar-form > div, .navbar-form .nav-signin, .navbar-form a').hide();
-                    $('.navbar-form p span').html(userInfo.name);
-                    $('.navbar-form > .nav-signout, .navbar-form p').removeClass('hide');
+                logined: function (userInfo) { //hide form and show user hello
+                    $body.find('.navbar-form > div, .navbar-form .nav-signin, .navbar-form a').hide();
+                    $body.find('.navbar-form p span').html(userInfo.name);
+                    $body.find('.navbar-form > .nav-signout, .navbar-form p').removeClass('hide');
                 },
-                logOut: function(){
-                    $('.navbar-form > .nav-signout, .navbar-form p').addClass('hide');
-                    $('.nav-password').val('');
-                    $('.navbar-form > div, .navbar-form .nav-signin, .navbar-form a').show();
+                logOut: function () { //hide user hello, show form
+                    $body.find('.navbar-form > .nav-signout, .navbar-form p').addClass('hide');
+                    $body.find('.nav-password').val('');
+                    $body.find('.navbar-form > div, .navbar-form .nav-signin, .navbar-form a').show();
 
                 }
             },
             pages: {
-                signUpForm: function(){
-                    $('.main-page').hide();
-                    $('.signup-form').show();
+                signUpForm: function () { //show sign up page
+                    $body.find('.main-page').hide();
+                    $body.find('.signup-form').show();
                 },
-                mainPage: function(){
-                    $('.main-page').show();
-                    $('.signup-form, .add-event').hide();
-                    $('.signup-form input').val('');
+                mainPage: function (events) { //show main page
+                    var item = '';
+
+                    $body.find('.main-page').show();
+                    $body.find('.signup-form, .add-event').hide();
+                    $body.find('.signup-form input').val('');
 
                     //activate event button
-                    if(sessionStorage.currentUser) {
+                    if (sessionStorage.currentUser) {
                         $body.find('.main-page button').removeAttr('disabled');
                     } else {
                         $body.find('.main-page button').attr('disabled', 'disabled');
                     }
-                },
-                showAddEventPage: function() {
-                    var stage = $('.events-form').attr('data-stage');
 
-                    $('.main-page').hide();
-                    $('.event-stage[data-stage="' + stage + '"]').show();
-                    $('.event-stage').not('[data-stage=' + stage + ']').hide();
-                    $('.add-event').show();
+                    //render events if they exist
+                    if (events.length) {
+                        events.forEach(function (event) {
+                            item += '<div class="col-md-4 col-sm-12">\
+                                <div class="panel panel-default event-panel">\
+                                <div class="panel-body">\
+                                <h3 class="event-name">' + event.name + '</h3>\
+                            <h5 class="event-type">' + event.type + '</h5>\
+                                <hr/>\
+                                <p class="event-start-date">Event start date: <span>' + event.startTime + '</span></p>\
+                            <p class="event-end-date">Event end date: <span>' + event.endTime + '</span></p>\
+                            <p class="event-place">Location: <span>' + event.location + '</span></p>\
+                            <hr/>\
+                            <p class="event-description">Description: <span>' + event.description + '</span></p>\
+                            <p class="event-guests">Guests: <span>' + event.guests + '</span></p>\
+                            <p class="event-owner">Created by: <span>' + event.owner + '</span></p>\
+                            </div>\
+                            </div>\
+                            </div>';
+
+                            $body.find('.main-page > .row').html(item);
+                        });
+                    }
+                },
+                showAddEventPage: function () {  //show add event form page
+                    var stage = $body.find('.events-form').attr('data-stage');
+
+                    $body.find('.main-page').hide();
+                    $body.find('.event-stage[data-stage="' + stage + '"]').show();
+                    $body.find('.event-stage').not('[data-stage=' + stage + ']').hide();
+                    $body.find('.add-event').show();
                 }
             },
             signUp: {
-                hideAlert: function(param, result, field){
-                    $('body').find('.alert-danger p[data-' + field + '="' + param + '"]').hide();
+                hideAlert: function (param, result, field) { //hide validation alerts
+                    $body.find('.alert-danger p[data-' + field + '="' + param + '"]').hide();
 
                     if (result) $('body').find('.alert-danger.' + field).hide();
                 },
-                showAlert: function(param, result, field){
-                    $('body').find('.alert-danger p[data-' + field + '="' + param + '"]').show();
+                showAlert: function (param, result, field) { //show validation alerts
+                    $body.find('.alert-danger p[data-' + field + '="' + param + '"]').show();
                     if (result) $('body').find('.alert-danger.' + field).show();
                 }
             },
             eventForm: {
-                stageNavigation: function(stage) {
+                stageNavigation: function (stage) {
                     //update current form data-stage
                     $body.find('.events-form').attr('data-stage', stage);
 
                     //enable or disable previous button
-                    if(stage > 1) {
+                    if (stage > 1) {
                         $body.find('.events-control .previous').removeAttr('disabled');
                     } else {
                         $body.find('.events-control .previous').attr('disabled', 'disabled');
                     }
 
                     //change button text for stage 3 (final) and predifine user name
-                    if(stage === 3) {
+                    if (stage === 3) {
                         $body.find('#event-owner').val(sessionStorage.currentUser);
                         $body.find('.events-control .next').text('Add Event');
                     } else {
@@ -139,15 +165,24 @@
                     $body.find('.event-stage[data-stage=' + stage + ']').show();
                     $body.find('.event-stage').not('[data-stage=' + stage + ']').hide();
                 }
+            },
+            alert: {
+                show: function (message) {
+                    var layout = '<div class="overlay alert-overlay"></div>' +
+                        '<div class="panel alert-panel">' +
+                        '<div class="panel-body">' + message + '</div>' +
+                        '</div>';
+
+                    $body.prepend(layout);
+                },
+                remove: function () {
+                    $body.find('.alert-overlay, .alert-panel').remove();
+                }
             }
         };
 
-
-        //TODO: refactoring
-        //TODO: check email for existing user
-        //TODO: during login give the message if user not exist
         var controllers = {
-            init: function(){
+            init: function () {
                 //initialize storage
                 storages.users.init();
                 storages.events.init();
@@ -160,82 +195,80 @@
                 this.eventForm.setEvents();
             },
             users: {
-                login: function(e){
+                login: function () {
                     var user = {};
-
-                    e.preventDefault();
 
                     user.email = $body.find('.nav-email').val();
                     user.password = $body.find('.nav-password').val();
 
                     var result = storages.users.getUser(user.email);
 
-                    if(result) { //check user password
-                        if(result.password === user.password) {
+                    if (result) { //check user password
+                        if (result.password === user.password) {
                             storages.users.createCurrentUser(result);
                             renders.users.logined(result);
-                            renders.pages.mainPage();
+                            controllers.pages.mainPage();
                         }
                     } else {
-
+                        renders.alert.show('User not registred');
                     }
                 },
-                logout: function(e){
+                logout: function (e) {
                     e.preventDefault();
 
                     storages.users.removeCurrentUser();
                     renders.users.logOut();
-                    renders.pages.mainPage();
+                    controllers.pages.mainPage();
                 },
-                checkUserSession: function(){
+                checkUserSession: function () {
                     var userSession = sessionStorage.currentUser;
 
-                    if(userSession) {
+                    if (userSession) {
                         renders.users.logined({name: userSession});
                     }
                 },
-                setEvents: function(){
-                    $body.find('.nav-signin').on('click', this.login);
+                setEvents: function () {
+                    $body.find('.navbar-form').on('submit', this.login);
                     $body.find('.nav-signout').on('click', this.logout);
                 }
             },
             pages: {
-                signUp: function(){
+                signUp: function () {
                     renders.pages.signUpForm();
                     helpers.urls.setHash('signup');
                 },
-                mainPage: function(){
-                    renders.pages.mainPage();
+                mainPage: function () {
+                    renders.pages.mainPage(storages.events.getAllEvents());
                     helpers.urls.setHash('mainPage');
                 },
-                eventForm: function(){
+                eventForm: function () {
                     renders.pages.showAddEventPage();
                     helpers.urls.setHash('addEvent');
                 },
-                setPage: function(){
+                setPage: function () {
                     var hash = helpers.urls.getHash();
 
-                    if(hash === 'signup') {
+                    if (hash === 'signup') {
                         this.signUp();
-                    } else if(hash === 'addEvent') {
+                    } else if (hash === 'addEvent') {
                         this.eventForm();
                     } else if (hash === '' || hash === 'mainPage') {
                         this.mainPage();
                     }
                 },
-                setEvents: function(){
+                setEvents: function () {
                     $body.find('.nav-signup').on('click', this.signUp);
                     $body.find('.navbar-brand').on('click', this.mainPage);
                     $body.find('.main-page button').on('click', this.eventForm)
                 }
             },
             signUp: {
-                validatePassword: function(e){
+                validatePassword: function (e) {
                     var password = $(e.target).val(),
                         finalResult = false;
 
                     //uppercase
-                    if(password.match(/[A-Z]/g)){
+                    if (password.match(/[A-Z]/g)) {
                         renders.signUp.hideAlert('uppercase', finalResult, 'password');
                         finalResult = true;
                     } else {
@@ -244,7 +277,7 @@
                     }
 
                     //lowercase
-                    if(password.match(/[a-z]/g)){
+                    if (password.match(/[a-z]/g)) {
                         renders.signUp.hideAlert('lowercase', finalResult, 'password');
                         finalResult = true;
                     } else {
@@ -253,7 +286,7 @@
                     }
 
                     //digit
-                    if(password.match(/\d/g)){
+                    if (password.match(/\d/g)) {
                         renders.signUp.hideAlert('digit', finalResult, 'password');
                         finalResult = true;
                     } else {
@@ -262,7 +295,7 @@
                     }
 
                     //length
-                    if(password.length > 6 ){
+                    if (password.length > 6) {
                         renders.signUp.hideAlert('length', finalResult, 'password');
                         finalResult = true;
                     } else {
@@ -272,7 +305,7 @@
 
                     this.isPasswordValid = finalResult;
                 },
-                validateEmail: function(e){
+                validateEmail: function (e) {
                     var email = $(e.target).val(),
                         result = false;
 
@@ -288,7 +321,7 @@
 
                     this.isEmailValid = result;
                 },
-                createNewUser: function(){
+                createNewUser: function () {
                     var userInfo = {};
 
                     userInfo.name = $body.find('#name').val();
@@ -298,24 +331,24 @@
                     userInfo.employer = $body.find('#employer').val();
                     userInfo.job = $body.find('#job').val();
                     userInfo.birth = $body.find('#birth').val();
-                    if(userInfo.name && userInfo.lastName && userInfo.email && this.isPasswordValid && !this.userExist) {
+                    if (userInfo.name && userInfo.lastName && userInfo.email && this.isPasswordValid && !this.userExist) {
                         storages.users.addNewUser(userInfo); //save new user
                         storages.users.createCurrentUser(userInfo);//save user to current session
                         helpers.urls.setHash('mainPage');
                         $body.find('.signup-form input').val(''); //clear form
-                        renders.pages.mainPage();//show main page
+                        controllers.pages.mainPage();//show main page
                         renders.users.logined(userInfo); //automatically loggined new user
                     }
                 },
-                checkEMailForExisting: function(e){
+                checkEMailForExisting: function (e) {
                     var email = $(e.target).val(),
                         result;
 
-                    if(this.isEmailValid) {
+                    if (this.isEmailValid) {
                         result = storages.users.getUser(email);
                     }
 
-                    if(result) {
+                    if (result) {
                         this.userExist = true;
                         renders.signUp.showAlert('exist', true, 'email');
                     } else {
@@ -323,25 +356,25 @@
                         renders.signUp.hideAlert('exist', false, 'email');
                     }
                 },
-                setEvents: function(){
+                setEvents: function () {
                     $body.on('keyup', '#password', this.validatePassword.bind(this));
-                    $body.on('click', '.signup-form .btn-success', this.createNewUser.bind(this));
+                    $body.on('submit', '.form-signup', this.createNewUser.bind(this));
                     $body.on('blur', '#email', this.checkEMailForExisting.bind(this));
                     $body.on('keyup', '#email', this.validateEmail.bind(this));
                 }
             },
             eventForm: {
-                stageValidation: function(stage) {
+                stageValidation: function (stage) {
                     var $inputs = $body.find('.event-stage[data-stage=' + stage + '] input'),
                         result = true;
 
-                    $inputs.each(function(){
-                        if(!$(this).val().length) result = false;
+                    $inputs.each(function () {
+                        if (!$(this).val().length) result = false;
                     });
 
                     return result;
                 },
-                addEvent: function() {
+                addEvent: function () {
                     var event = {};
 
                     event.name = $body.find('#event-name').val();
@@ -355,40 +388,41 @@
 
                     storages.events.addEvent(event);
                 },
-                stageNavigation: function(e){
+                stageNavigation: function (e) {
                     var $target = $(e.target),
                         navigation = $target.attr('data-nav'),
                         stage = parseInt($target.closest('form').attr('data-stage')),
                         validation = this.stageValidation(stage);
 
                     //count stage number for render
-                    if(navigation === 'next') {
+                    if (navigation === 'next') {
                         stage += 1;
                     } else {
                         stage -= 1;
                     }
 
                     //run render for next or previous stage
-                    if(navigation === 'next' && validation && stage <= 3) renders.eventForm.stageNavigation(stage);
-                    if(navigation === 'previous') renders.eventForm.stageNavigation(stage);
+                    if (navigation === 'next' && validation && stage <= 3) renders.eventForm.stageNavigation(stage);
+                    if (navigation === 'previous') renders.eventForm.stageNavigation(stage);
 
                     //if we have 3 stage and add an event
-                    if(stage > 3 && validation) {
-                        //this.addEvent();
+                    if (stage > 3 && validation) {
+                        this.addEvent();
                         $body.find('.events-form input, .events-form textarea').val('');
                         $body.find('.events-form').attr('data-stage', '1');
                         controllers.pages.mainPage();
                     }
 
                 },
-                setEvents: function(){
-                    $body.find('.events-control .next, .events-control .previous').on('click', this.stageNavigation.bind(this));
+                setEvents: function () {
+                    $body.find('.events-control .next, .events-control .previous')
+                        .on('click', this.stageNavigation.bind(this));
                 }
             }
         };
 
         return {
-            init: function(){
+            init: function () {
                 controllers.init();
             }
         }
