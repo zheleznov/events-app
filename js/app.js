@@ -131,7 +131,7 @@
                 }
             },
             signUp: {
-                hideAlert: function (param, result, field) { //hide validation alerts
+                hideAlert: function (param, result, field) { //hide validation alert
                     $body.find('.alert-danger p[data-' + field + '="' + param + '"]').hide();
 
                     if (result) $('body').find('.alert-danger.' + field).hide();
