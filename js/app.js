@@ -44,6 +44,21 @@
 
                     localStorage.users = JSON.stringify(users);
                 }
+            },
+            events: {
+                init: function(){
+                    if(!localStorage.events) {
+                        var events = [];
+                        localStorage.events = JSON.stringify(events);
+                    }
+                },
+                addEvent: function(event){
+                    var events = JSON.parse(localStorage.events);
+
+                    events.push(event);
+
+                    localStorage.events = JSON.stringify(events);
+                }
             }
         };
 
@@ -81,7 +96,11 @@
                     }
                 },
                 showAddEventPage: function() {
+                    var stage = $('.events-form').attr('data-stage');
+
                     $('.main-page').hide();
+                    $('.event-stage[data-stage="' + stage + '"]').show();
+                    $('.event-stage').not('[data-stage=' + stage + ']').hide();
                     $('.add-event').show();
                 }
             },
@@ -108,6 +127,13 @@
                         $body.find('.events-control .previous').attr('disabled', 'disabled');
                     }
 
+                    //change button text for stage 3 (final)
+                    if(stage === 3) {
+                        $body.find('.events-control .next').text('Add Event');
+                    } else {
+                        $body.find('.events-control .next').text('Next');
+                    }
+
                     //navigate through the stages
                     $body.find('.event-stage[data-stage=' + stage + ']').show();
                     $body.find('.event-stage').not('[data-stage=' + stage + ']').hide();
@@ -123,6 +149,7 @@
             init: function(){
                 //initialize storage
                 storages.users.init();
+                storages.events.init();
 
                 this.users.setEvents();
                 this.users.checkUserSession();
@@ -303,21 +330,58 @@
                 }
             },
             eventForm: {
-                stageNavigation: function(){
-                    var navigation = $(this).attr('data-nav'),
-                        stage = parseInt($(this).closest('form').attr('data-stage'));
+                stageValidation: function(stage) {
+                    var $inputs = $body.find('.event-stage[data-stage=' + stage + '] input'),
+                        result = true;
 
+                    $inputs.each(function(){
+                        if(!$(this).val().length) result = false;
+                    });
+
+                    return result;
+                },
+                addEvent: function() {
+                    var event = {};
+
+                    event.name = $body.find('#event-name').val();
+                    event.type = $body.find('#event-type').val();
+                    event.description = $body.find('#event-description').val();
+                    event.startTime = $body.find('#event-start-time').val();
+                    event.endTime = $body.find('#event-end-time').val();
+                    event.location = $body.find('#event-location').val();
+                    event.owner = $body.find('#event-owner').val();
+                    event.guests = $body.find('#event-guests').val();
+
+                    storages.events.addEvent(event);
+                },
+                stageNavigation: function(e){
+                    var $target = $(e.target),
+                        navigation = $target.attr('data-nav'),
+                        stage = parseInt($target.closest('form').attr('data-stage')),
+                        validation = this.stageValidation(stage);
+
+                    //count stage number for render
                     if(navigation === 'next') {
                         stage += 1;
                     } else {
                         stage -= 1;
                     }
-                    renders.eventForm.stageNavigation(stage);
+
+                    //run render for next or previous stage
+                    if(navigation === 'next' && validation && stage <= 3) renders.eventForm.stageNavigation(stage);
+                    if(navigation === 'previous') renders.eventForm.stageNavigation(stage);
+
+                    //if we have 3 stage and add an event
+                    if(stage > 3 && validation) {
+                        //this.addEvent();
+                        $body.find('.events-form input, .events-form textarea').val('');
+                        $body.find('.events-form').attr('data-stage', '1');
+                        controllers.pages.mainPage();
+                    }
+
                 },
                 setEvents: function(){
-                    $body.find('.events-control .next, .events-control .previous').on('click', this.stageNavigation);
-
-
+                    $body.find('.events-control .next, .events-control .previous').on('click', this.stageNavigation.bind(this));
                 }
             }
         };
