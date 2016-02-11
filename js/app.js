@@ -163,6 +163,15 @@
                         $body.find('.events-control .next').text('Next');
                     }
 
+                    //render progress bar according to current stage
+                    if(stage === 2) {
+                        $body.find('.progress-bar').css('width', '30%').text('30%');
+                    } else if(stage === 3) {
+                        $body.find('.progress-bar').css('width', '65%').text('65%');
+                    } else if(stage === 1) {
+                        $body.find('.progress-bar').css('width', '0').text('');
+                    }
+
                     //navigate through the stages
                     $body.find('.event-stage[data-stage=' + stage + ']').show();
                     $body.find('.event-stage').not('[data-stage=' + stage + ']').hide();
