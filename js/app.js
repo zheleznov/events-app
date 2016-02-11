@@ -122,7 +122,9 @@
                     }
                 },
                 showAddEventPage: function () {  //show add event form page
-                    var stage = $body.find('.events-form').attr('data-stage');
+                    var stage = parseInt($body.find('.events-form').attr('data-stage'));
+
+                    if(stage === 1) $body.find('.previous').attr('disabled', 'disabled');
 
                     $body.find('.main-page').hide();
                     $body.find('.event-stage[data-stage="' + stage + '"]').show();
@@ -170,7 +172,9 @@
                 show: function (message) {
                     var layout = '<div class="overlay alert-overlay"></div>' +
                         '<div class="panel alert-panel">' +
-                        '<div class="panel-body">' + message + '</div>' +
+                        '<div class="panel-body"><p>' + message + '</p>' +
+                        '<button class="alert-close btn btn-success">Close</button>' +
+                        '</div>' +
                         '</div>';
 
                     $body.prepend(layout);
@@ -208,9 +212,11 @@
                             storages.users.createCurrentUser(result);
                             renders.users.logined(result);
                             controllers.pages.mainPage();
+                        } else {
+                            renders.alert.show('Password is incorrect');
                         }
                     } else {
-                        renders.alert.show('User not registred');
+                        renders.alert.show('This user is not exist');
                     }
                 },
                 logout: function (e) {
@@ -227,9 +233,13 @@
                         renders.users.logined({name: userSession});
                     }
                 },
+                closeAlert: function() {
+                    renders.alert.remove();
+                },
                 setEvents: function () {
                     $body.find('.navbar-form').on('submit', this.login);
                     $body.find('.nav-signout').on('click', this.logout);
+                    $body.on('click', '.alert-close', this.closeAlert);
                 }
             },
             pages: {

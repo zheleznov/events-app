@@ -36,3 +36,23 @@
     margin-bottom: 0;
     text-align: center;
 }
+
+.alert-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8) none repeat scroll 0 0;
+    z-index: 10000;
+}
+
+.alert-panel {
+    position: absolute;
+    z-index: 10000;
+    width: 300px;
+    left: 50%;
+    margin-left: -150px;
+    margin-top: 15%;
+    text-align: center;
+}
