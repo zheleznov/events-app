@@ -100,7 +100,7 @@
                     //render events if they exist
                     if (events.length) {
                         events.forEach(function (event) {
-                            item += '<div class="col-md-4 col-sm-12">\
+                            item += '<div class="col-md-4 col-sm-6">\
                                 <div class="panel panel-default event-panel">\
                                 <div class="panel-body">\
                                 <h3 class="event-name">' + event.name + '</h3>\
