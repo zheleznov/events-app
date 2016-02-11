@@ -60,3 +60,10 @@
 .main-page .panel {
     width: 100%;
 }
+
+#event-name:valid {
+    border: green;
+}
+#event-name:invalid {
+    border: red;
+}

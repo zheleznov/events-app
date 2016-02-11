@@ -45,6 +45,7 @@
         <p><button type="button" class="btn btn-primary" disabled="disabled">Create event</button></p>
     </div>
 </div>
+
 <!-- Main page container with events-->
 <div class="container main-page">
     <!-- Example row of columns -->
@@ -60,15 +61,15 @@
             <form class="form-signup">
                 <div class="form-group" >
                     <label class="control-label" for="name">Name*</label>
-                    <input autocomplete="on" autofocus id="name" placeholder="" class="form-control" type="text" required/>
+                    <input autocomplete="on" autofocus id="name" placeholder="John" class="form-control" type="text" required/>
                 </div>
                 <div class="form-group">
                     <label class="control-label" for="lastName">Last Name*</label>
-                    <input autocomplete="on" id="lastName" placeholder="" class="form-control" type="text" required/>
+                    <input autocomplete="on" id="lastName" placeholder="Cohnor" class="form-control" type="text" required/>
                 </div>
                 <div class="form-group">
                     <label class="control-label" for="email">Email*</label>
-                    <input autocomplete="off" id="email" placeholder="" class="form-control" type="email" required/>
+                    <input autocomplete="off" id="email" placeholder="name@example.com" class="form-control" type="email" required/>
                     <div class="alert alert-danger email" role="alert">
                         <p data-email="exist">This email already have used</p>
                         <p data-email="valid">Email is not valid</p>
@@ -76,7 +77,7 @@
                 </div>
                 <div class="form-group">
                     <label class="control-label" for="password">Password*</label>
-                    <input autocomplete="off" id="password" placeholder="" class="form-control" type="password" required/>
+                    <input autocomplete="off" id="password" placeholder="Password" class="form-control" type="password" required/>
                     <div class="alert alert-danger password" role="alert">
                         <p data-password="length">Password should have 6 or more characters</p>
                         <p data-password="digit">Password should have at least 1 digit</p>
@@ -86,15 +87,15 @@
                 </div>
                 <div class="form-group">
                     <label class="control-label" for="employer">Employer (optional)</label>
-                    <input autocomplete="on" id="employer" placeholder="" class="form-control" type="text"/>
+                    <input autocomplete="on" id="employer" placeholder="Amazon Inc" class="form-control" type="text"/>
                 </div>
                 <div class="form-group">
                     <label class="control-label" for="job">Job (optional)</label>
-                    <input autocomplete="on" id="job" placeholder="" class="form-control" type="text"/>
+                    <input autocomplete="on" id="job" placeholder="Analyst" class="form-control" type="text"/>
                 </div>
                 <div class="form-group">
                     <label class="control-label" for="birth">Date of birth (optional)</label>
-                    <input autocomplete="on" id="birth" placeholder="" class="form-control" type="date"/>
+                    <input autocomplete="on" id="birth" placeholder="02.24.2016" class="form-control" type="date"/>
                 </div>
                 <div class="form-group">
                     <p>* - required fields</p>
@@ -112,17 +113,18 @@
             <form class="events-form" data-stage="1">
                 <h3>Creating event form</h3>
                 <div class="progress">
-                    <div class="progress-bar" role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" style="">
+                    <div class="progress-bar" role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" style="width: 30%">
+                        30%
                     </div>
                 </div>
                 <div class="event-stage" data-stage="1">
                     <div class="form-group">
                         <label class="control-label" for="event-name">Event Name*</label>
-                        <input autocomplete="on" id="event-name" placeholder="" class="form-control" type="text" required/>
+                        <input autocomplete="on" id="event-name" placeholder="New Year Celebration" class="form-control" type="text" required/>
                     </div>
                     <div class="form-group">
                         <label class="control-label" for="event-type">Event Type*</label>
-                        <input autocomplete="on" list="events-list" id="event-type" placeholder="" class="form-control" type="text" required/>
+                        <input autocomplete="on" list="events-list" id="event-type" placeholder="Party" class="form-control" type="text" required/>
                         <datalist id="events-list">
                             <option value="Birthday"></option>
                             <option value="Meeting"></option>
@@ -131,33 +133,33 @@
                     </div>
                     <div class="form-group">
                         <label class="control-label" for="event-description">Event description</label>
-                        <textarea class="form-control" id="event-description" rows="3"></textarea>
+                        <textarea placeholder="Put some text here" class="form-control" id="event-description" rows="3"></textarea>
                     </div>
                 </div>
 
                 <div class="event-stage" data-stage="2">
                     <div class="form-group">
                         <label class="control-label" for="event-start-time">Event start date*</label>
-                        <input autocomplete="on" id="event-start-time" placeholder="" class="form-control" type="date" required/>
+                        <input autocomplete="on" id="event-start-time" placeholder="Please select start date" class="form-control" type="datetime-local" required/>
                     </div>
                     <div class="form-group">
                         <label class="control-label" for="event-end-time">Event end date*</label>
-                        <input autocomplete="on" id="event-end-time" placeholder="" class="form-control" type="date" required/>
+                        <input autocomplete="on" id="event-end-time" placeholder="Please select end date" class="form-control" type="datetime-local" required/>
                     </div>
                     <div class="form-group">
                         <label class="control-label" for="event-location">Location*</label>
-                        <input autocomplete="on" id="event-location" placeholder="" class="form-control" type="text" required/>
+                        <input autocomplete="on" id="event-location" placeholder="New York" class="form-control" type="text" required/>
                     </div>
                 </div>
 
                 <div class="event-stage" data-stage="3">
                     <div class="form-group">
                         <label class="control-label" for="event-owner">Event owner*</label>
-                        <input autocomplete="on" id="event-owner" placeholder="" class="form-control" type="text" required/>
+                        <input autocomplete="on" id="event-owner" placeholder="Event owner" class="form-control" type="text" required/>
                     </div>
                     <div class="form-group">
                         <label class="control-label" for="event-guests">Guests*</label>
-                        <input autocomplete="on" id="event-guests" placeholder="" class="form-control" type="text" required/>
+                        <input autocomplete="on" id="event-guests" placeholder="Sarah, John, Arnold" class="form-control" type="text" required/>
                     </div>
                 </div>
                 <div class="form-group">

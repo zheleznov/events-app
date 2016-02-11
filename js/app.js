@@ -165,11 +165,11 @@
 
                     //render progress bar according to current stage
                     if(stage === 2) {
-                        $body.find('.progress-bar').css('width', '30%').text('30%');
-                    } else if(stage === 3) {
                         $body.find('.progress-bar').css('width', '65%').text('65%');
+                    } else if(stage === 3) {
+                        $body.find('.progress-bar').css('width', '100%').text('100%');
                     } else if(stage === 1) {
-                        $body.find('.progress-bar').css('width', '0').text('');
+                        $body.find('.progress-bar').css('width', '30%').text('30%');
                     }
 
                     //navigate through the stages
