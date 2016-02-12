@@ -61,9 +61,18 @@
     width: 100%;
 }
 
-#event-name:valid {
-    border: green;
+#name:valid,
+#lastName:valid,
+#email.valid-email:valid,
+#password.valid-pas:valid {
+    border: #1ad61e 1px solid;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
 }
-#event-name:invalid {
-    border: red;
+
+#name:invalid,
+#lastName:invalid,
+#email.invalid-email:invalid,
+#password.invalid-pas:invalid {
+    border: #ff0e4c 1px solid;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
 }

@@ -136,11 +136,17 @@
                 hideAlert: function (param, result, field) { //hide validation alert
                     $body.find('.alert-danger p[data-' + field + '="' + param + '"]').hide();
 
-                    if (result) $('body').find('.alert-danger.' + field).hide();
+                    if (result) {
+                        $body.find('.alert-danger.' + field).hide();
+                        $body.find('#email').addClass('valid-email').removeClass('invalid-email');
+                    }
                 },
                 showAlert: function (param, result, field) { //show validation alerts
                     $body.find('.alert-danger p[data-' + field + '="' + param + '"]').show();
-                    if (result) $('body').find('.alert-danger.' + field).show();
+                    if (result) {
+                        $body.find('.alert-danger.' + field).show();
+                        $body.find('#email').removeClass('valid-email').addClass('invalid-email');
+                    }
                 }
             },
             eventForm: {
@@ -320,6 +326,14 @@
                     } else {
                         renders.signUp.showAlert('length', finalResult, 'password');
                         finalResult = false;
+                    }
+
+                    if (finalResult) {
+                        $body.find('#password').addClass('valid-pas');
+                        $body.find('#password').removeClass('invalid-pas');
+                    } else {
+                        $body.find('#password').removeClass('valid-pas');
+                        $body.find('#password').addClass('invalid-pas');
                     }
 
                     this.isPasswordValid = finalResult;
