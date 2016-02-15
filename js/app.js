@@ -82,6 +82,7 @@
                 signUpForm: function () { //show sign up page
                     $body.find('.main-page').hide();
                     $body.find('.signup-form').show();
+                    $body.find('#name').focus();
                 },
                 mainPage: function (events) { //show main page
                     var item = '';
@@ -130,6 +131,7 @@
                     $body.find('.event-stage[data-stage="' + stage + '"]').show();
                     $body.find('.event-stage').not('[data-stage=' + stage + ']').hide();
                     $body.find('.add-event').show();
+                    $body.find('#event-name').focus();
                 }
             },
             signUp: {
@@ -138,14 +140,14 @@
 
                     if (result) {
                         $body.find('.alert-danger.' + field).hide();
-                        $body.find('#email').addClass('valid-email').removeClass('invalid-email');
+                        $body.find('#email').removeClass('invalid-email');
                     }
                 },
                 showAlert: function (param, result, field) { //show validation alerts
                     $body.find('.alert-danger p[data-' + field + '="' + param + '"]').show();
                     if (result) {
                         $body.find('.alert-danger.' + field).show();
-                        $body.find('#email').removeClass('valid-email').addClass('invalid-email');
+                        $body.find('#email').addClass('invalid-email');
                     }
                 }
             },
@@ -349,7 +351,7 @@
                         renders.signUp.hideAlert('valid', result, 'email');
                     } else {
                         result = false;
-                        renders.signUp.showAlert('valid', !result, 'email');
+                        //renders.signUp.showAlert('valid', !result, 'email');
                     }
 
                     this.isEmailValid = result;
@@ -389,11 +391,22 @@
                         renders.signUp.hideAlert('exist', false, 'email');
                     }
                 },
+                activateSubmit: function(e){
+                    var name = $body.find('#name').val(),
+                        lastName = $body.find('#lastName').val();
+
+                    if(name.length && lastName.length && this.isPasswordValid && this.isEmailValid && !this.userExist) {
+                        $body.find('.form-signup button').removeAttr('disabled');
+                    } else {
+                        $body.find('.form-signup button').attr('disabled', 'disabled');
+                    }
+                },
                 setEvents: function () {
                     $body.on('keyup', '#password', this.validatePassword.bind(this));
                     $body.on('submit', '.form-signup', this.createNewUser.bind(this));
                     $body.on('blur', '#email', this.checkEMailForExisting.bind(this));
                     $body.on('keyup', '#email', this.validateEmail.bind(this));
+                    $body.on('keyup', '#name, #lastName, #email, #password', this.activateSubmit.bind(this));
                 }
             },
             eventForm: {
@@ -447,9 +460,32 @@
                     }
 
                 },
+                activateFirstNext: function(){
+                    var name = $body.find('#event-name').val(),
+                        type = $body.find('#event-type').val();
+
+                    if(name.length && type.length) {
+                        $body.find('.events-form .next').removeAttr('disabled');
+                    } else {
+                        $body.find('.events-form .next').attr('disabled', 'disabled');
+                    }
+                },
+                /*activateSecondNext: function(){
+                    var start = $body.find('#event-start-time').val(),
+                        end = $body.find('#event-end-time').val(),
+                        location = $body.find('#event-location').val();
+
+                    if(start.length && end.length && location.length) {
+                        $body.find('.events-form .next').removeAttr('disabled');
+                    } else {
+                        $body.find('.events-form .next').attr('disabled', 'disabled');
+                    }
+                },*/
                 setEvents: function () {
                     $body.find('.events-control .next, .events-control .previous')
                         .on('click', this.stageNavigation.bind(this));
+                    $body.on('keyup', '#event-name, #event-type', this.activateFirstNext);
+                    //$body.on('keyup', '#event-start-time, #event-end-time, #event-location', this.activateSecondNext);
                 }
             }
         };

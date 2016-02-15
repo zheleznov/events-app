@@ -1,0 +1,78 @@
+.nav-signout.hide,
+.navbar-form p.hide,
+.signup-form,
+.add-event,
+.add-event div[data-stage="2"],
+.add-event div[data-stage="3"],
+.alert-danger.email{
+    display: none;
+}
+
+.navbar-form p {
+    display: inline-block;
+    padding-right: 10px;
+    color: rgb(255, 255, 255);
+}
+
+.signup-form,
+.add-event {
+    margin-top: 50px;
+}
+
+.signup-form p[data-email="exist"] {
+    display: none;
+}
+
+.events-control {
+    float: right;
+}
+
+.event-panel {
+    display: inline-block;
+
+    h3, h5 {
+        margin-top: 0;
+        margin-bottom: 0;
+        text-align: center;
+    }
+}
+
+.alert-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8) none repeat scroll 0 0;
+    z-index: 10000;
+}
+
+.alert-panel {
+    position: absolute;
+    z-index: 10000;
+    width: 300px;
+    left: 50%;
+    margin-left: -150px;
+    margin-top: 15%;
+    text-align: center;
+}
+
+.main-page .panel {
+    width: 100%;
+}
+
+#name:valid,
+#lastName:valid,
+#email:valid,
+#password.valid-pas:valid {
+    border: #1ad61e 1px solid;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+}
+
+#name:invalid,
+#lastName:invalid,
+#email:invalid, #email.invalid-email:valid,
+#password.invalid-pas:invalid {
+    border: #ff0e4c 1px solid;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+}
