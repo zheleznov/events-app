@@ -470,22 +470,10 @@
                         $body.find('.events-form .next').attr('disabled', 'disabled');
                     }
                 },
-                /*activateSecondNext: function(){
-                    var start = $body.find('#event-start-time').val(),
-                        end = $body.find('#event-end-time').val(),
-                        location = $body.find('#event-location').val();
-
-                    if(start.length && end.length && location.length) {
-                        $body.find('.events-form .next').removeAttr('disabled');
-                    } else {
-                        $body.find('.events-form .next').attr('disabled', 'disabled');
-                    }
-                },*/
                 setEvents: function () {
                     $body.find('.events-control .next, .events-control .previous')
                         .on('click', this.stageNavigation.bind(this));
                     $body.on('keyup', '#event-name, #event-type', this.activateFirstNext);
-                    //$body.on('keyup', '#event-start-time, #event-end-time, #event-location', this.activateSecondNext);
                 }
             }
         };
