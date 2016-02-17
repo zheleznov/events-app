@@ -391,7 +391,7 @@
                         renders.signUp.hideAlert('exist', false, 'email');
                     }
                 },
-                activateSubmit: function(e){
+                activateSubmit: function(){
                     var name = $body.find('#name').val(),
                         lastName = $body.find('#lastName').val();
 
@@ -470,10 +470,15 @@
                         $body.find('.events-form .next').attr('disabled', 'disabled');
                     }
                 },
+                locAutocomplete: function(){
+                    var input = $body.find('#event-location')[0];
+                    var autocomplete = new google.maps.places.Autocomplete(input);
+                },
                 setEvents: function () {
                     $body.find('.events-control .next, .events-control .previous')
                         .on('click', this.stageNavigation.bind(this));
                     $body.on('keyup', '#event-name, #event-type', this.activateFirstNext);
+                    google.maps.event.addDomListener(window, 'load', this.locAutocomplete);
                 }
             }
         };
