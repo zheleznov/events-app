@@ -1,7 +1,5 @@
 # README #
 
-This README would normally document whatever steps are necessary to get your application up and running.
-
 ### What is this repository for? ###
 
 * Events planning single page application for Udacity Nanodegree
@@ -10,5 +8,24 @@ This README would normally document whatever steps are necessary to get your app
 * Application build via jQuery and bootstrap. Frameworks was not used
 
 
-### How do I get set up? ###
-Just clone the repository and run index.html
+## Prerequisites
+
+You will need the following things properly installed on your computer.
+
+* [Git](http://git-scm.com/)
+* [Node.js](http://nodejs.org/) (with NPM)
+
+## Installation
+
+* `git clone <repository-url>` this repository
+* change into the new directory
+* `npm install`
+
+## Running / Development
+
+* `gulp`
+* Visit your app at [http://localhost:3002](http://localhost:3002).
+
+### Building
+
+* `gulp create-production` (production)
